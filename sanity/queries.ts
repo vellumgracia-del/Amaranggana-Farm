@@ -30,18 +30,30 @@ export interface SanityFocusArea {
 
 // Mendapatkan Hero Block pertama (karena biasanya kita hanya butuh 1 Hero Utama)
 export async function getHeroBlock(): Promise<SanityHeroBlock | null> {
-    const query = groq`*[_type == "heroBlock"][0]`
-    return client.fetch(query)
+    try {
+        const query = groq`*[_type == "heroBlock"][0]`
+        return await client.fetch(query)
+    } catch {
+        return null
+    }
 }
 
 // Mendapatkan semua produk
 export async function getProducts(): Promise<SanityProduct[]> {
-    const query = groq`*[_type == "product"] | order(_createdAt asc)`
-    return client.fetch(query)
+    try {
+        const query = groq`*[_type == "product"] | order(_createdAt asc)`
+        return await client.fetch(query)
+    } catch {
+        return []
+    }
 }
 
 // Mendapatkan area fokus (List 3 Kartu Fokus Utama)
 export async function getFocusAreas(): Promise<SanityFocusArea[]> {
-    const query = groq`*[_type == "focusArea"] | order(_createdAt asc) [0...3]`
-    return client.fetch(query)
+    try {
+        const query = groq`*[_type == "focusArea"] | order(_createdAt asc) [0...3]`
+        return await client.fetch(query)
+    } catch {
+        return []
+    }
 }
